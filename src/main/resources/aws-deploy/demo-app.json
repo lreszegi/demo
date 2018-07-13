@@ -1,0 +1,37 @@
+{
+  "kind": "ReplicationController",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "demo",
+    "labels": {
+      "app": "demo"
+    }
+  },
+  "spec": {
+    "replicas": 1,
+    "selector": {
+      "app": "demo"
+    },
+    "template": {
+      "metadata": {
+        "labels": {
+          "app": "demo"
+        }
+      },
+      "spec": {
+        "containers": [
+          {
+            "name": "demo",
+            "image": "lreszegi/demo:latest",
+            "ports": [
+              {
+                "name": "http-server",
+                "containerPort": 3000
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
