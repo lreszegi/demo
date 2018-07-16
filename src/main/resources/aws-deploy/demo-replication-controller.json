@@ -22,7 +22,7 @@
         "containers": [
           {
             "name": "demo",
-            "image": "lreszegi/demo:latest",
+            "image": "lreszegi/demo:0.2.1",
             "ports": [
               {
                 "name": "http-server",
