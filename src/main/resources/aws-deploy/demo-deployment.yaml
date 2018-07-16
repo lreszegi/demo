@@ -19,3 +19,19 @@ spec:
         image: lreszegi/demo:0.2
         ports:
         - containerPort: 8080
+        ports:
+        - name: liveness-port
+          containerPort: 8080
+          hostPort: 8080
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 5
