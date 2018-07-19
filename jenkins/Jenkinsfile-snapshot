@@ -1,4 +1,5 @@
 def version
+def jarFile
 
 pipeline {
 
@@ -55,8 +56,12 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: '7e53a0ea-d0fb-4aa4-a80d-ecd9610e9442', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USER')]) {
                         script {
                            sh "docker login -u $DOCKER_USER -p $DOCKER_PASSWORD"
-                           sh "docker build -t lreszegi/demo:${version} ."
-                           sh "docker push lreszegi/demo:${version}"
+                           jarFile = sh (
+                                      script: "./gradlew -q getJarFile",
+                                      returnStdout: true).trim()
+                           sh "echo ${jarFile}"
+                           sh "docker build --build-arg JAR_FILE=${jarFile} -t lreszegi/demo:${version} ."
+                           //sh "docker push lreszegi/demo:${version}"
                         }
                     }
                 }
