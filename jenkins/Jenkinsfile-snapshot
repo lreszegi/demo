@@ -45,7 +45,7 @@ pipeline {
                     script {
                         version = sh (
                             script: "git log -n 1 --pretty=format:'%H'",
-                            returnStdout: true).trim()
+                            returnStdout: true).substring(0, 8).trim()
                         sh "echo ${version}"
                         currentBuild.displayName = version
                         currentBuild.description = "#$env.BUILD_NUMBER"

@@ -33,7 +33,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: '3a54a622-c863-4759-a2a1-a32d1d8764a6', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'dc80c7fd-11b6-4f9a-b517-06a3b4ce14b6', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
                     script {
                         sh 'export AWS_DEFAULT_REGION=us-east-1'
                         sh 'export AWS_DEFAULT_OUTPUT=json'
