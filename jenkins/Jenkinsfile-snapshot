@@ -10,7 +10,7 @@ pipeline {
     options {
         timestamps()
         disableConcurrentBuilds()
-        timeout(time: 30, unit: 'MINUTES')
+        timeout(time: 30, unit: 'MI NUTES')
         buildDiscarder(logRotator(numToKeepStr: '10'))
     }
     stages {
@@ -20,7 +20,6 @@ pipeline {
                    $class: 'GitSCM',
                    branches: [[name: master]],
                    browser: [$class: 'githubweb', repoUrl: 'https://github.com/lreszegi/demo'],
-                   doGenerateSubmoduleConfigurations: false,
                    extensions: [
                        [$class: 'WipeWorkspace'],
                        [$class: 'LocalBranch', localBranch: branch]
