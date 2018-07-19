@@ -62,9 +62,6 @@ pipeline {
             }
         }
         stage('Deploy') {
-            when {
-                expression { params.deploy }
-            }
             steps {
                 build job: 'demo-deploy', parameters: [string(name: 'version', value: version)]
             }

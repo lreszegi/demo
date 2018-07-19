@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: demo
-        image: lreszegi/demo:0.2.5
+        image: lreszegi/demo:{version}
         ports:
         - containerPort: 8080
         ports:

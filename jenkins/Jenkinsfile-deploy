@@ -4,12 +4,14 @@ pipeline {
 
     agent any
 
-
     options {
         timestamps()
         disableConcurrentBuilds()
         timeout(time: 30, unit: 'MINUTES')
         buildDiscarder(logRotator(numToKeepStr: '10'))
+    }
+    parameters {
+        string(name: 'version', description: 'The version to deploy')
     }
     stages {
         stage('Checkout') {
@@ -29,8 +31,21 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                build job: 'demo-deploy', parameters: [string(name: 'version', value: version)]
+                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: '3a54a622-c863-4759-a2a1-a32d1d8764a6', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+                    script {
+                        sh 'export AWS_DEFAULT_REGION=us-east-1'
+                        sh 'export AWS_DEFAULT_OUTPUT=json'
+                        sh 'kubectl apply -f /root/aws-auth-cm.yaml'
+                        kubeSubst('{version}', version, ./src/main/resources/aws-deploy/demo-deployment.yaml)
+                        sh 'kubectl apply -f ./src/main/resources/aws-deploy/demo-deployment.yaml
+                        sh 'kubectl rollout status deployment/demo-deployment -w'
+                    }
+                }
             }
         }
+    }
+
+    def kubeSubst(placeholder, value, file) {
+      sh "sed -i.bak s/:\\\${$placeholder}/:$value/g $file"
     }
 }
