@@ -30,7 +30,7 @@ spec:
     spec:
       containers:
       - name: demo
-        image: lreszegi/demo:{version}
+        image: lreszegi/demo:${version}
         ports:
         - containerPort: 8080
         ports:
