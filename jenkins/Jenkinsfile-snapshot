@@ -44,8 +44,17 @@ pipeline {
                 always {
                     script {
                         version = sh "./gradlew getVersion"
+                        sh "echo ${version}"
                         currentBuild.displayName = version
                         currentBuild.description = "#$env.BUILD_NUMBER"
+                    }
+                }
+                success {
+                withCredentials([usernamePassword(credentialsId: '7e53a0ea-d0fb-4aa4-a80d-ecd9610e9442', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USER')]) {
+                    script {
+                            docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+                            
+                        }
                     }
                 }
             }

@@ -1,0 +1,36 @@
+def version
+
+pipeline {
+
+    agent any
+
+
+    options {
+        timestamps()
+        disableConcurrentBuilds()
+        timeout(time: 30, unit: 'MINUTES')
+        buildDiscarder(logRotator(numToKeepStr: '10'))
+    }
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout (
+                    scm: [
+                        $class: 'GitSCM',
+                        branches: [[name: 'master']],
+                        browser: [$class: 'GithubWeb', repoUrl: 'https://github.com/lreszegi/demo'],
+                        doGenerateSubmoduleConfigurations: false,
+                        extensions: [[$class: 'WipeWorkspace']],
+                        submoduleCfg: [],
+                        userRemoteConfigs: [[credentialsId: '7e53a0ea-d0fb-4aa4-a80d-ecd9610e9442', url: 'https://github.com/lreszegi/demo.git']]
+                    ]
+                )
+            }
+        }
+        stage('Deploy') {
+            steps {
+                build job: 'demo-deploy', parameters: [string(name: 'version', value: version)]
+            }
+        }
+    }
+}
