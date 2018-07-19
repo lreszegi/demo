@@ -36,7 +36,7 @@ pipeline {
                         sh 'export AWS_DEFAULT_REGION=us-east-1'
                         sh 'export AWS_DEFAULT_OUTPUT=json'
                         sh 'kubectl apply -f /root/aws-auth-cm.yaml'
-                        kubeSubst('{version}', version, ./src/main/resources/aws-deploy/demo-deployment.yaml)
+                        kubeSubst('{version}', version, './src/main/resources/aws-deploy/demo-deployment.yaml')
                         sh 'kubectl apply -f ./src/main/resources/aws-deploy/demo-deployment.yaml
                         sh 'kubectl rollout status deployment/demo-deployment -w'
                     }
