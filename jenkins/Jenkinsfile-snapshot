@@ -54,8 +54,8 @@ pipeline {
                 success {
                 withCredentials([usernamePassword(credentialsId: '7e53a0ea-d0fb-4aa4-a80d-ecd9610e9442', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USER')]) {
                     script {
-                           sh 'docker login -u $DOCKER_USER -p $DOCKER_PASSWORD'
-                           sh 'docker push lreszegi/demo:${version}'
+                           sh "docker login -u $DOCKER_USER -p $DOCKER_PASSWORD"
+                           sh "docker push lreszegi/demo:${version}"
                         }
                     }
                 }
