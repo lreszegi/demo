@@ -11,6 +11,6 @@ public class DemoController {
 
     @GetMapping("/")
     public String helloWorld() {
-        return "Hello Laci!";
+        return "Hellobelló!";
     }
 }
