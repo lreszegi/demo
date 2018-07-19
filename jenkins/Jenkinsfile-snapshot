@@ -44,7 +44,7 @@ pipeline {
                 always {
                     script {
                         version = sh (
-                            script: 'git log -n 1 --pretty=format:'%H'',
+                            script: "git log -n 1 --pretty=format:'%H'",
                             returnStdout: true).trim()
                         sh "echo ${version}"
                         currentBuild.displayName = version
