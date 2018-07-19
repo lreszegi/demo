@@ -1,0 +1,59 @@
+def version
+
+pipeline {
+    triggers {
+        pollSCM('H/2 * * * *')
+    }
+    options {
+        timestamps()
+        disableConcurrentBuilds()
+        timeout(time: 30, unit: 'MINUTES')
+        buildDiscarder(logRotator(numToKeepStr: '10'))
+    }
+    stages {
+        stage('Checkout') {
+            steps {
+               checkout(
+                   $class: 'GitSCM',
+                   branches: [[name: master]],
+                   browser: [$class: 'githubweb', repoUrl: 'https://github.com/lreszegi/demo'],
+                   doGenerateSubmoduleConfigurations: false,
+                   extensions: [
+                       [$class: 'WipeWorkspace'],
+                       [$class: 'LocalBranch', localBranch: branch]
+                    ],
+                    userRemoteConfigs: [[credentialsId: 'lreszegi', url: 'ssh://git@github.com:lreszegi/demo.git']]
+                )
+            }
+        }
+        stage('PrintBuildInfo') {
+            steps {
+                sh 'echo $JAVA_HOME'
+                sh 'java -version'
+                sh './gradlew -version'
+            }
+        }
+        stage('Build') {
+            steps {
+                sh "./gradlew clean build docker"
+            }
+            post {
+                always {
+                    script {
+                        version = sh "./gradlew getVersion"
+                        currentBuild.displayName = version
+                        currentBuild.description = "#$env.BUILD_NUMBER"
+                    }
+                }
+            }
+        }
+        stage('Deploy') {
+            when {
+                expression { params.deploy }
+            }
+            steps {
+                build job: 'demo-deploy', parameters: [string(name: 'version', value: version)]
+            }
+        }
+    }
+}
