@@ -39,8 +39,10 @@ pipeline {
                         sh 'export AWS_DEFAULT_OUTPUT=json'
                         sh 'kubectl apply -f /root/aws-auth-cm.yaml'
                         kubeSubst('{version}', version, './src/main/resources/aws-deploy/demo-deployment.yaml')
-                        sh 'kubectl apply -f ./src/main/resources/aws-deploy/demo-deployment.yaml'
-                        sh 'kubectl rollout status deployment/demo-deployment -w'
+                        withCredentials([usernamePassword(credentialsId: '7e53a0ea-d0fb-4aa4-a80d-ecd9610e9442', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USER')]) {
+                            sh 'kubectl apply -f ./src/main/resources/aws-deploy/demo-deployment.yaml
+                            sh 'kubectl rollout status deployment/demo-deployment -w'
+                        }
                     }
                 }
             }
