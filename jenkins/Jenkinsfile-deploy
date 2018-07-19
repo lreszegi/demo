@@ -33,15 +33,12 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'dc80c7fd-11b6-4f9a-b517-06a3b4ce14b6', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'],
-                usernamePassword(credentialsId: '7e53a0ea-d0fb-4aa4-a80d-ecd9610e9442', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USER')]) {
+                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'dc80c7fd-11b6-4f9a-b517-06a3b4ce14b6', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
                     script {
                         sh 'export AWS_DEFAULT_REGION=us-east-1'
                         sh 'export AWS_DEFAULT_OUTPUT=json'
-                        sh "docker login -u $DOCKER_USER -p $DOCKER_PASSWORD"
                         sh 'kubectl apply -f /root/aws-auth-cm.yaml'
                         kubeSubst('version', version, './src/main/resources/aws-deploy/demo-deployment.yaml')
-                        sh 'cat ./src/main/resources/aws-deploy/demo-deployment.yaml'
                         sh 'kubectl apply -f ./src/main/resources/aws-deploy/demo-deployment.yaml'
                         sh 'kubectl rollout status deployment/demo-deployment -w'
                     }

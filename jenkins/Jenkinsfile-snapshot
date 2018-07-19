@@ -47,7 +47,6 @@ pipeline {
                         version = sh (
                             script: "git log -n 1 --pretty=format:'%H'",
                             returnStdout: true).substring(0, 8).trim()
-                        sh "echo ${version}"
                         currentBuild.displayName = version
                         currentBuild.description = "#$env.BUILD_NUMBER"
                     }
@@ -59,9 +58,8 @@ pipeline {
                            jarFile = sh (
                                       script: "./gradlew -q getJarFile",
                                       returnStdout: true).trim()
-                           sh "echo ${jarFile}"
                            sh "docker build --build-arg JAR_FILE=./build/libs/${jarFile} -t lreszegi/demo:${version} ."
-                           //sh "docker push lreszegi/demo:${version}"
+                           sh "docker push lreszegi/demo:${version}"
                         }
                     }
                 }
