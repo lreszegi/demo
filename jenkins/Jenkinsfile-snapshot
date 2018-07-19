@@ -16,7 +16,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                checkout {
+                checkout (
                     scm: [
                         $class: 'GitSCM',
                         branches: [[name: 'master']],
@@ -26,7 +26,7 @@ pipeline {
                         submoduleCfg: [],
                         userRemoteConfigs: [[credentialsId: '7e53a0ea-d0fb-4aa4-a80d-ecd9610e9442', url: 'https://github.com/lreszegi/demo.git']]
                     ]
-                }
+                )
             }
         }
         stage('PrintBuildInfo') {
