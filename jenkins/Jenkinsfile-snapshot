@@ -1,6 +1,9 @@
 def version
 
 pipeline {
+
+    agent any
+
     triggers {
         pollSCM('H/2 * * * *')
     }
