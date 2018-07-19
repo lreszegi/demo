@@ -20,11 +20,7 @@ pipeline {
                    $class: 'GitSCM',
                    branches: [name: 'master'],
                    browser: [$class: 'githubweb', repoUrl: 'https://github.com/lreszegi/demo'],
-                   extensions: [
-                       [$class: 'WipeWorkspace'],
-                       [$class: 'LocalBranch', localBranch: branch]
-                    ],
-                    userRemoteConfigs: [[credentialsId: 'lreszegi', url: 'ssh://git@github.com:lreszegi/demo.git']]
+                   userRemoteConfigs: [[credentialsId: 'lreszegi', url: 'ssh://git@github.com:lreszegi/demo.git']]
                 )
             }
         }
