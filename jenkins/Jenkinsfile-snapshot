@@ -60,7 +60,7 @@ pipeline {
                                       script: "./gradlew -q getJarFile",
                                       returnStdout: true).trim()
                            sh "echo ${jarFile}"
-                           sh "docker build --build-arg JAR_FILE=${jarFile} -t lreszegi/demo:${version} ."
+                           sh "docker build --build-arg JAR_FILE=./build/libs/${jarFile} -t lreszegi/demo:${version} ."
                            //sh "docker push lreszegi/demo:${version}"
                         }
                     }
