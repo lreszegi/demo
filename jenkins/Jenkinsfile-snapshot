@@ -14,15 +14,20 @@ pipeline {
         buildDiscarder(logRotator(numToKeepStr: '10'))
     }
     stages {
-        checkout {
-            scm: [
-                $class: 'GitSCM',
-                branches: [[name: 'master']],
-                browser: [$class: 'GithubWeb', repoUrl: 'https://github.com/lreszegi/demo'],
-                doGenerateSubmoduleConfigurations: false,
-                extensions: [[$class: 'WipeWorkspace']],
-                submoduleCfg: [],
-                userRemoteConfigs: [[credentialsId: '7e53a0ea-d0fb-4aa4-a80d-ecd9610e9442', url: 'https://github.com/lreszegi/demo.git']]]
+        stage('Checkout') {
+            steps {
+                checkout {
+                    scm: [
+                        $class: 'GitSCM',
+                        branches: [[name: 'master']],
+                        browser: [$class: 'GithubWeb', repoUrl: 'https://github.com/lreszegi/demo'],
+                        doGenerateSubmoduleConfigurations: false,
+                        extensions: [[$class: 'WipeWorkspace']],
+                        submoduleCfg: [],
+                        userRemoteConfigs: [[credentialsId: '7e53a0ea-d0fb-4aa4-a80d-ecd9610e9442', url: 'https://github.com/lreszegi/demo.git']]
+                    ]
+                }
+            }
         }
         stage('PrintBuildInfo') {
             steps {
