@@ -38,7 +38,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh "./gradlew clean build docker"
+                sh "./gradlew clean build"
             }
             post {
                 always {
@@ -55,6 +55,7 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: '7e53a0ea-d0fb-4aa4-a80d-ecd9610e9442', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USER')]) {
                     script {
                            sh "docker login -u $DOCKER_USER -p $DOCKER_PASSWORD"
+                           sh "docker build -t lreszegi/demo:${version} ."
                            sh "docker push lreszegi/demo:${version}"
                         }
                     }
