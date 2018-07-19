@@ -41,8 +41,9 @@ pipeline {
                         sh "docker login -u $DOCKER_USER -p $DOCKER_PASSWORD"
                         sh 'kubectl apply -f /root/aws-auth-cm.yaml'
                         kubeSubst('{version}', version, './src/main/resources/aws-deploy/demo-deployment.yaml')
-                        sh 'kubectl apply -f ./src/main/resources/aws-deploy/demo-deployment.yaml'
-                        sh 'kubectl rollout status deployment/demo-deployment -w'
+                        sh 'cat ./src/main/resources/aws-deploy/demo-deployment.yaml'
+                        //sh 'kubectl apply -f ./src/main/resources/aws-deploy/demo-deployment.yaml'
+                        //sh 'kubectl rollout status deployment/demo-deployment -w'
                     }
                 }
             }
