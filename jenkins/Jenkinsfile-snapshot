@@ -43,7 +43,9 @@ pipeline {
             post {
                 always {
                     script {
-                        version = sh (./gradlew -q getVersion).trim()
+                        version = sh (
+                            script: './gradlew -q getVersion',
+                            returnStdout: true).trim()
                         sh "echo ${version}"
                         currentBuild.displayName = version
                         currentBuild.description = "#$env.BUILD_NUMBER"
