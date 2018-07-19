@@ -35,6 +35,6 @@ dependencies {
 
 task getJarFile {
     doLast {
-        println bootJar.archivePath + "/" +bootJar.archiveName
+        println "${bootJar.archivePath}/${bootJar.archiveName}"
     }
 }

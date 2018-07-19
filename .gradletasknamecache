@@ -10,11 +10,6 @@ jar
 testClasses
 init
 wrapper
-docker
-dockerClean
-dockerfileZip
-dockerPrepare
-dockerPush
 javadoc
 buildEnvironment
 components
@@ -39,6 +34,7 @@ compileTestJava
 eclipseClasspath
 eclipseJdt
 eclipseProject
+getJarFile
 processResources
 processTestResources
 Pattern:
@@ -56,11 +52,6 @@ jar
 testClasses
 init
 wrapper
-docker
-dockerClean
-dockerfileZip
-dockerPrepare
-dockerPush
 javadoc
 buildEnvironment
 components
@@ -85,5 +76,6 @@ compileTestJava
 eclipseClasspath
 eclipseJdt
 eclipseProject
+getJarFile
 processResources
 processTestResources
