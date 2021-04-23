@@ -3,4 +3,3 @@ pipeline:
     image: golang
     commands:
       - echo Laci
-+branches: lreszegi
